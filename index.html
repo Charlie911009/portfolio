@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charlie Lee Portfolio</title>
+<meta name="description" content="Charlie Lee의 포트폴리오 - 경력, 프로젝트, 기술 스택">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b14; --bg2:#12121f; --card:rgba(255,255,255,.05); --border:rgba(255,255,255,.1);
+  --text:#ecebf5; --muted:#9a98b3; --a1:#7c5cff; --a2:#22d3ee; --a3:#ff5c9d;
+  --grad:linear-gradient(135deg,var(--a1),var(--a2) 55%,var(--a3));
+}
+:root[data-theme="light"]{
+  --bg:#f7f6ff; --bg2:#ecebfa; --card:rgba(255,255,255,.75); --border:rgba(20,20,60,.12);
+  --text:#16162b; --muted:#5d5b78;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;transition:background .3s,color .3s}
+h1,h2,h3,.logo{font-family:'Space Grotesk','Noto Sans KR',sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+section{padding:96px 0;position:relative}
+.sec-title{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:40px}
+.sec-title span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* progress + nav */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--grad);z-index:100}
+nav{position:fixed;top:0;left:0;right:0;z-index:90;transition:background .3s,backdrop-filter .3s}
+nav.scrolled{background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:700;font-size:1.2rem}
+.logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.links{display:flex;gap:26px;align-items:center}
+.links a{font-size:.92rem;color:var(--muted);transition:color .2s}
+.links a:hover,.links a.active{color:var(--text)}
+.icon-btn{background:var(--card);border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem}
+#burger{display:none}
+@media(max-width:760px){
+  #burger{display:block}
+  .links{position:fixed;top:64px;left:0;right:0;flex-direction:column;background:var(--bg2);padding:20px 16px;gap:18px;transform:translateY(-130%);transition:transform .3s;border-bottom:1px solid var(--border)}
+  .links.open{transform:none}
+}
+
+/* hero */
+#hero{min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.45;animation:float 14s ease-in-out infinite;pointer-events:none}
+.b1{width:420px;height:420px;background:var(--a1);top:-80px;left:-100px}
+.b2{width:360px;height:360px;background:var(--a2);bottom:-60px;right:-60px;animation-delay:-5s}
+.b3{width:280px;height:280px;background:var(--a3);top:40%;left:55%;animation-delay:-9s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.1)}66%{transform:translate(-30px,30px) scale(.92)}}
+#glow{position:fixed;width:360px;height:360px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(124,92,255,.22),transparent 65%);transform:translate(-50%,-50%);left:-999px;top:-999px}
+.hero-in{position:relative;z-index:1}
+.hello{color:var(--a2);font-weight:500;margin-bottom:10px}
+h1{font-size:clamp(2.6rem,8vw,5.2rem);line-height:1.1;margin-bottom:14px}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 200%;animation:shift 6s ease infinite}
+@keyframes shift{50%{background-position:100% 50%}}
+.tag{font-size:clamp(1.1rem,3vw,1.6rem);color:var(--muted);min-height:2.2em}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--a2);vertical-align:-3px;margin-left:3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+.btn{padding:13px 26px;border-radius:999px;font-weight:500;border:1px solid var(--border);transition:transform .2s,box-shadow .2s;cursor:pointer;background:var(--card);color:var(--text);font-size:1rem;font-family:inherit}
+.btn.primary{background:var(--grad);border:none;color:#fff}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(124,92,255,.35)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s ease;transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+.about-grid p{color:var(--muted);font-size:1.05rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;text-align:center}
+.stat b{font-family:'Space Grotesk';font-size:2.2rem;display:block;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat small{color:var(--muted)}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+
+/* skills */
+.skill-group{margin-bottom:26px}
+.skill-group h3{font-size:1rem;color:var(--muted);margin-bottom:12px;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:8px 18px;border-radius:999px;background:var(--card);border:1px solid var(--border);font-size:.92rem;transition:transform .2s,border-color .2s}
+.chip:hover{transform:translateY(-3px) scale(1.05);border-color:var(--a1)}
+
+/* timeline */
+.timeline{position:relative;padding-left:34px}
+.timeline::before,.timeline .fill{content:"";position:absolute;left:7px;top:6px;width:2px;border-radius:2px}
+.timeline::before{bottom:6px;background:var(--border)}
+.timeline .fill{height:0;background:var(--grad);z-index:1}
+.job{position:relative;margin-bottom:34px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 24px}
+.job::before{content:"";position:absolute;left:-34px;top:26px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--a1);z-index:2}
+.job h3{font-size:1.2rem}
+.job .meta{color:var(--a2);font-size:.9rem;margin-bottom:8px}
+.job ul{padding-left:18px;color:var(--muted)}
+
+/* projects */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.filters .btn{padding:8px 18px;font-size:.9rem}
+.filters .btn.on{background:var(--grad);color:#fff;border:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;perspective:900px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px;transition:transform .15s ease-out,border-color .3s,opacity .4s;transform-style:preserve-3d;display:block}
+.card:hover{border-color:var(--a1)}
+.card h3{font-size:1.2rem;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.95rem;margin-bottom:16px}
+.card .chips .chip{padding:3px 12px;font-size:.78rem}
+.card.hide{display:none}
+
+/* contact */
+#contact{text-align:center}
+#contact p{color:var(--muted);margin-bottom:28px}
+.contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="glow"></div>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#hero" class="logo" id="logo"></a>
+    <div class="links" id="links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+      <button class="icon-btn" id="theme" aria-label="테마 전환">🌙</button>
+    </div>
+    <button class="icon-btn" id="burger" aria-label="메뉴">☰</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="wrap hero-in">
+    <p class="hello">안녕하세요, 저는</p>
+    <h1><span id="name"></span></h1>
+    <p class="tag"><span id="typed"></span><i class="caret"></i></p>
+    <div class="cta">
+      <a href="#projects" class="btn primary">프로젝트 보기</a>
+      <a href="#contact" class="btn">연락하기</a>
+    </div>
+  </div>
+</section>
+
+<section id="about"><div class="wrap">
+  <h2 class="sec-title reveal">About <span>Me</span></h2>
+  <div class="about-grid">
+    <p class="reveal" id="about-text"></p>
+    <div class="stats reveal" id="stats" style="--d:.15s"></div>
+  </div>
+</div></section>
+
+<section id="skills"><div class="wrap">
+  <h2 class="sec-title reveal">Tech <span>Skills</span></h2>
+  <div id="skills-list"></div>
+</div></section>
+
+<section id="experience"><div class="wrap">
+  <h2 class="sec-title reveal">Work <span>Experience</span></h2>
+  <div class="timeline" id="timeline"><div class="fill" id="fill"></div></div>
+</div></section>
+
+<section id="projects"><div class="wrap">
+  <h2 class="sec-title reveal">Selected <span>Projects</span></h2>
+  <div class="filters reveal" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section id="education"><div class="wrap">
+  <h2 class="sec-title reveal"><span>Education</span></h2>
+  <div id="edu"></div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <h2 class="sec-title reveal">Let's <span>Connect</span></h2>
+  <p class="reveal" id="contact-text"></p>
+  <div class="contact-links reveal" id="contact-links"></div>
+</div></section>
+
+<footer id="foot"></footer>
+
+<script>
+/* ===== 이력 데이터: 아래 객체만 수정하면 사이트 전체가 바뀝니다 (현재는 예시 내용) ===== */
+const PROFILE = {
+  name: "Charlie Lee",
+  role: "Full-Stack Developer",
+  taglines: ["사용자 경험을 코드로 만듭니다.", "작은 디테일에 집착하는 개발자.", "아이디어를 제품으로 연결합니다."],
+  about: "문제를 구조적으로 풀고, 직접 만든 것이 사람들에게 쓰이는 순간을 좋아하는 개발자입니다. 프론트엔드부터 백엔드, 배포 자동화까지 제품의 전 과정을 경험했으며, 협업과 코드 품질을 중요하게 생각합니다. (예시 소개글입니다)",
+  stats: [
+    { value: 4, suffix: "+", label: "년 경력" },
+    { value: 20, suffix: "+", label: "완료 프로젝트" },
+    { value: 8, suffix: "", label: "사용 기술 스택" },
+    { value: 100, suffix: "%", label: "열정" }
+  ],
+  skills: [
+    { group: "Frontend", items: ["HTML/CSS", "JavaScript", "TypeScript", "React", "Next.js"] },
+    { group: "Backend", items: ["Node.js", "Python", "PostgreSQL", "REST API"] },
+    { group: "Tools", items: ["Git", "Docker", "GitHub Actions", "Figma"] }
+  ],
+  experience: [
+    { company: "Example Tech Inc.", role: "Senior Software Engineer", period: "2024.03 – 현재",
+      bullets: ["결제 서비스 프론트엔드 리뉴얼 주도, 전환율 18% 개선", "CI/CD 파이프라인 구축으로 배포 시간 40분 → 8분 단축", "주니어 개발자 3명 멘토링"] },
+    { company: "Sample Studio", role: "Software Engineer", period: "2022.01 – 2024.02",
+      bullets: ["B2B SaaS 대시보드 설계 및 개발", "API 응답 속도 최적화 (평균 350ms → 120ms)"] },
+    { company: "Demo Startup", role: "Junior Developer", period: "2020.07 – 2021.12",
+      bullets: ["모바일 웹 서비스 초기 버전 개발", "사용자 피드백 기반 기능 개선 사이클 운영"] }
+  ],
+  projects: [
+    { title: "Realtime Dashboard", desc: "WebSocket 기반 실시간 지표 대시보드. 수천 건/초 이벤트를 부드럽게 시각화.", tags: ["Web", "React", "Node.js"], link: "#" },
+    { title: "Mood Journal App", desc: "감정 기록과 통계를 제공하는 모바일 퍼스트 웹앱.", tags: ["Web", "TypeScript"], link: "#" },
+    { title: "Deploy Bot", desc: "슬랙 명령으로 배포와 롤백을 처리하는 자동화 봇.", tags: ["Tool", "Python", "Docker"], link: "#" },
+    { title: "Design Token CLI", desc: "Figma 토큰을 CSS 변수로 동기화하는 CLI 도구.", tags: ["Tool", "Node.js"], link: "#" }
+  ],
+  education: [
+    { school: "Example University", detail: "컴퓨터공학 학사", period: "2016.03 – 2020.02" }
+  ],
+  contact: { email: "hello@example.com", github: "https://github.com/", linkedin: "https://www.linkedin.com/" }
+};
+
+/* ===== 렌더링 ===== */
+const $ = s => document.querySelector(s);
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const P = PROFILE;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+document.title = `${P.name} | Portfolio`;
+$('#logo').innerHTML = `${esc(P.name.split(' ')[0])}<b>.</b>`;
+$('#name').textContent = P.name;
+$('#about-text').textContent = P.about;
+$('#foot').textContent = `© ${new Date().getFullYear()} ${P.name}. Built with HTML, CSS & JS.`;
+
+P.stats.forEach((s, i) => {
+  const d = el('div', 'stat', `<b data-to="${s.value}" data-suf="${esc(s.suffix)}">0${esc(s.suffix)}</b><small>${esc(s.label)}</small>`);
+  $('#stats').append(d);
+});
+
+P.skills.forEach(g => {
+  const box = el('div', 'skill-group reveal', `<h3>${esc(g.group)}</h3>`);
+  const chips = el('div', 'chips');
+  g.items.forEach((it, i) => { const c = el('span', 'chip reveal', esc(it)); c.style.setProperty('--d', i * 0.07 + 's'); chips.append(c); });
+  box.append(chips); $('#skills-list').append(box);
+});
+
+P.experience.forEach((j, i) => {
+  const d = el('div', 'job reveal', `<h3>${esc(j.role)} · ${esc(j.company)}</h3><div class="meta">${esc(j.period)}</div><ul>${j.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>`);
+  d.style.setProperty('--d', i * 0.1 + 's');
+  $('#timeline').append(d);
+});
+
+const tagSet = ['All', ...new Set(P.projects.flatMap(p => p.tags.slice(0, 1)))];
+let activeTag = 'All';
+tagSet.forEach(t => {
+  const b = el('button', 'btn' + (t === 'All' ? ' on' : ''), esc(t));
+  b.onclick = () => {
+    activeTag = t;
+    document.querySelectorAll('#filters .btn').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('.card').forEach(c => c.classList.toggle('hide', t !== 'All' && c.dataset.cat !== t));
+  };
+  $('#filters').append(b);
+});
+P.projects.forEach((p, i) => {
+  const c = el('a', 'card reveal', `<h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="chips">${p.tags.map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>`);
+  c.href = p.link; c.dataset.cat = p.tags[0]; c.style.setProperty('--d', i * 0.1 + 's');
+  if (p.link.startsWith('http')) { c.target = '_blank'; c.rel = 'noopener'; }
+  $('#grid').append(c);
+  if (!reduced) {
+    c.addEventListener('mousemove', e => {
+      const r = c.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      c.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translateZ(6px)`;
+    });
+    c.addEventListener('mouseleave', () => c.style.transform = '');
+  }
+});
+
+P.education.forEach(e => $('#edu').append(el('div', 'job reveal', `<h3>${esc(e.school)}</h3><div class="meta">${esc(e.period)}</div><p style="color:var(--muted)">${esc(e.detail)}</p>`)));
+
+$('#contact-text').textContent = "새로운 기회나 협업 제안은 언제든 환영입니다.";
+const cl = $('#contact-links');
+const mail = el('button', 'btn primary', `✉ ${esc(P.contact.email)}`);
+mail.onclick = async () => {
+  try { await navigator.clipboard.writeText(P.contact.email); mail.textContent = '✓ 복사됨!'; }
+  catch { location.href = `mailto:${P.contact.email}`; }
+  setTimeout(() => mail.innerHTML = `✉ ${esc(P.contact.email)}`, 1800);
+};
+cl.append(mail);
+[['GitHub', P.contact.github], ['LinkedIn', P.contact.linkedin]].forEach(([n, u]) => {
+  const a = el('a', 'btn', n); a.href = u; a.target = '_blank'; a.rel = 'noopener'; cl.append(a);
+});
+
+/* ===== 타이핑 효과 ===== */
+(function typing() {
+  const t = $('#typed');
+  if (reduced) { t.textContent = P.taglines[0]; return; }
+  let i = 0, j = 0, del = false;
+  (function tick() {
+    const s = P.taglines[i];
+    t.textContent = s.slice(0, j);
+    if (!del && j === s.length) { del = true; return setTimeout(tick, 1600); }
+    if (del && j === 0) { del = false; i = (i + 1) % P.taglines.length; }
+    j += del ? -1 : 1;
+    setTimeout(tick, del ? 28 : 65);
+  })();
+})();
+
+/* ===== reveal + 카운트업 ===== */
+function countUp(n) {
+  const to = +n.dataset.to, suf = n.dataset.suf;
+  if (reduced) { n.textContent = to + suf; return; }
+  const t0 = performance.now(), dur = 1400;
+  (function f(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    n.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))) + suf;
+    if (p < 1) requestAnimationFrame(f);
+  })(t0);
+}
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll?.('[data-to]').forEach(countUp);
+  io.unobserve(e.target);
+}), { threshold: .15 });
+document.querySelectorAll('.reveal').forEach(n => io.observe(n));
+
+/* ===== 스크롤: 진행바, 네비, 타임라인, 현재 섹션 ===== */
+const nav = $('#nav'), links = [...document.querySelectorAll('.links a')];
+const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+function onScroll() {
+  const h = document.documentElement, y = h.scrollTop;
+  $('#progress').style.width = (y / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  nav.classList.toggle('scrolled', y > 20);
+  const tl = $('#timeline'), r = tl.getBoundingClientRect();
+  const prog = Math.min(Math.max((innerHeight * .6 - r.top) / r.height, 0), 1);
+  $('#fill').style.height = `calc((100% - 12px) * ${prog})`;
+  let cur = 0;
+  secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .4) cur = i; });
+  links.forEach((a, i) => a.classList.toggle('active', i === cur && y > 200));
+}
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+/* ===== 마우스 글로우 ===== */
+if (!reduced) addEventListener('mousemove', e => { const g = $('#glow'); g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px'; });
+
+/* ===== 테마 / 모바일 메뉴 ===== */
+const root = document.documentElement, tbtn = $('#theme');
+function setTheme(t) { root.dataset.theme = t; tbtn.textContent = t === 'dark' ? '🌙' : '☀️'; try { localStorage.setItem('theme', t); } catch {} }
+let saved = null; try { saved = localStorage.getItem('theme'); } catch {}
+setTheme(saved || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+tbtn.onclick = () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
+$('#burger').onclick = () => $('#links').classList.toggle('open');
+links.forEach(a => a.addEventListener('click', () => $('#links').classList.remove('open')));
+</script>
+</body>
+</html>
